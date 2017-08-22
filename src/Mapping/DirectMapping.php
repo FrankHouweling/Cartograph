@@ -42,8 +42,7 @@ class DirectMapping implements MappingInterface
                 continue;
             }
 
-            $attributeValues[$attribute->getName()] = $attribute->getValue()
-            ];
+            $attributeValues[$attribute->getName()] = $attribute->getValue();
         }
 
         return $attributeValues;
