@@ -1,0 +1,22 @@
+{
+    "name": "frank-houweling/cartograph",
+    "description": "Map objects to objects",
+    "type": "library",
+    "license": "GPL-2.0",
+    "keywords": [
+        "php",
+        "mapping",
+        "object mapping"
+    ],
+    "homepage": "http://www.senet.nl/",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "FrankHouweling\\Cartograph\\": "src/"
+        }
+    }
+ }
