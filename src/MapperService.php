@@ -30,14 +30,14 @@ class MapperService
      * @return object
      * @throws \InvalidArgumentException
      */
-    public function map($from, $to): object
+    public function map($from, $to)
     {
         if(is_string($to))
         {
             $to = $this->getObject($to);
         }
         $mapping = $this->mappingRepository->getMapping(get_class($from), get_class($to));
-        return $mapping->map($from, $to, $mapping);
+        return (new $mapping())->map($from, $to, $mapping);
     }
 
     /**
@@ -45,7 +45,7 @@ class MapperService
      * @return object
      * @throws \InvalidArgumentException
      */
-    private function getObject(string $className): object
+    private function getObject(string $className)
     {
         if(!class_exists($className))
         {

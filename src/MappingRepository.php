@@ -14,7 +14,7 @@ namespace FrankHouweling\Cartograph;
  */
 class MappingRepository
 {
-    private $mappingCollection[];
+    private $mappingCollection = [];
 
     /**
      * @param string $fromClass
