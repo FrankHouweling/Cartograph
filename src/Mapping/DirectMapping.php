@@ -8,6 +8,8 @@
 
 namespace FrankHouweling\Cartograph\Mapping;
 
+use FrankHouweling\Cartograph\MapperService;
+
 /**
  * Class DirectMapping
  * @package FrankHouweling\Cartograph\Mapping
@@ -19,7 +21,7 @@ class DirectMapping implements MappingInterface
      * @param object $to
      * @return object
      */
-    public function map(object $from, object $to): object
+    public function map(object $from, object $to, MapperService $mapperService): object
     {
         $this->mapAttributeValues($this->getAttributeValues($from), $to);
         return $to;
