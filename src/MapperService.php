@@ -8,6 +8,9 @@
 
 namespace FrankHouweling\Cartograph;
 
+use FrankHouweling\Cartograph\Mapping\MappingInterface;
+use Psr\Container\ContainerInterface;
+
 /**
  * Class MapperService
  * @package FrankHouweling\Cartograph
@@ -19,9 +22,23 @@ class MapperService
      */
     private $mappingRepository;
 
-    public function __construct(MappingRepository $mappingRepository)
+    /**
+     * @var null|ContainerInterface
+     */
+    private $container;
+
+    /**
+     * MapperService constructor.
+     * @param MappingRepository $mappingRepository
+     * @param null|ContainerInterface $container
+     */
+    public function __construct(
+        MappingRepository $mappingRepository,
+        ?ContainerInterface $container = null
+    )
     {
         $this->mappingRepository = $mappingRepository;
+        $this->container = $container;
     }
 
     /**
@@ -36,8 +53,31 @@ class MapperService
         {
             $to = $this->getObject($to);
         }
-        $mapping = $this->mappingRepository->getMapping(get_class($from), get_class($to));
-        return (new $mapping())->map($from, $to, $mapping);
+        $mappingClass = $this->mappingRepository->getMapping(get_class($from), get_class($to));
+        $mappingObject = $this->getMapping($mappingClass);
+        if(($mappingObject instanceof MappingInterface) === false)
+        {
+            throw new \LogicException(
+                sprintf('Mapping class %s given as mapping %s -> %s does not implement MappingInterface'),
+                $mapping,
+                get_class($from),
+                get_class($to)
+            );
+        }
+        return $mappingObject->map($from, $to, $this);
+    }
+
+    /**
+     * @param string $mappingClass
+     * @return MappingInterface
+     */
+    private function getMapping(string $mappingClass): MappingInterface
+    {
+        if($this->container->has($mapping))
+        {
+            return $this->container->get($mapping);
+        }
+        return (new $mapping());
     }
 
     /**
