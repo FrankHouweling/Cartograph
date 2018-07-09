@@ -45,7 +45,7 @@ class MappingRepository
     /**
      * @param $fromClass
      * @param $toClass
-     * @return mixed
+     * @return string
      * @throws \InvalidArgumentException
      */
     public function getMapping($fromClass, $toClass)

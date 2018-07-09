@@ -7,6 +7,7 @@
  */
 
 namespace FrankHouweling\Cartograph\Mapping;
+use FrankHouweling\Cartograph\MapperService;
 
 /**
  * Interface MappingInterface
@@ -19,5 +20,5 @@ interface MappingInterface
      * @param object $to
      * @return object
      */
-    public function map($from, $to);
+    public function map($from, $to, MapperService $mapperService);
 }
