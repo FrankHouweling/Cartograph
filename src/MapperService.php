@@ -73,11 +73,11 @@ class MapperService
      */
     private function getMapping(string $mappingClass): MappingInterface
     {
-        if($this->container !== null && $this->container->has($mapping))
+        if($this->container !== null && $this->container->has($mappingClass))
         {
-            return $this->container->get($mapping);
+            return $this->container->get($mappingClass);
         }
-        return (new $mapping());
+        return (new $mappingClass());
     }
 
     /**
