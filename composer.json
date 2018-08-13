@@ -1,0 +1,26 @@
+{
+    "name": "frank-houweling/cartograph",
+    "description": "Map objects to objects",
+    "type": "library",
+    "license": "GPL-2.0",
+    "keywords": [
+        "php",
+        "mapping",
+        "object mapping"
+    ],
+    "homepage": "http://www.senet.nl/",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.1",
+        "psr/container": "^1.0.0"
+    },
+    "suggest": {
+        "doctrine/orm": "Allows usage of the EntityMappingRepository, which handles proxy classes."
+    },
+    "autoload": {
+        "psr-4": {
+            "FrankHouweling\\Cartograph\\": "src/"
+        }
+    }
+ }
