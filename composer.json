@@ -2,7 +2,7 @@
     "name": "frank-houweling/cartograph",
     "description": "Map objects to objects",
     "type": "library",
-    "license": "GPL-2.0",
+    "license": "MIT",
     "keywords": [
         "php",
         "mapping",
