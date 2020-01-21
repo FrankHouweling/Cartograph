@@ -42,12 +42,14 @@ class MapperService
     }
 
     /**
+     * Retrieves the mapping set for a transformation of $from to $to. And uses it to map the $to object.
+     *
      * @param object $from
      * @param object|string $to
      * @return object
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException if no valid MappingObject is found.
      */
-    public function map($from, $to)
+    public function map(object $from, $to): object
     {
         if(is_string($to))
         {
@@ -85,7 +87,7 @@ class MapperService
      * @return object
      * @throws \InvalidArgumentException
      */
-    private function getObject(string $className)
+    private function getObject(string $className): object
     {
         if(!class_exists($className))
         {

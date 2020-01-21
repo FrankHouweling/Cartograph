@@ -14,12 +14,14 @@ use FrankHouweling\Cartograph\MapperService;
  * Class DirectMapping
  * @package FrankHouweling\Cartograph\Mapping
  */
-class DirectMapping implements MappingInterface
+final class DirectMapping implements MappingInterface
 {
     /**
      * @param object $from
      * @param object $to
+     * @param MapperService $mapperService
      * @return object
+     * @throws \ReflectionException
      */
     public function map(object $from, object $to, MapperService $mapperService): object
     {
@@ -28,13 +30,16 @@ class DirectMapping implements MappingInterface
     }
 
     /**
+     * Maps the properties of the $from Object to an associative array.
+     *
      * @param object $from
      * @return array
+     * @throws \ReflectionException
      */
-    private function getAttributeValues(object $from)
+    private function getAttributeValues(object $from): array
     {
         $reflect = new \ReflectionClass($from);
-        $attributes   = $reflect->getProperties();
+        $attributes = $reflect->getProperties();
 
         $attributeValues = [];
         foreach($attributes as $attribute)
@@ -53,8 +58,9 @@ class DirectMapping implements MappingInterface
     /**
      * @param array $attributeValues
      * @param object $to
+     * @throws \ReflectionException
      */
-    private function mapAttributeValues(array $attributeValues, object $to)
+    private function mapAttributeValues(array $attributeValues, object $to): void
     {
         $reflect = new \ReflectionClass($to);
         foreach($attributeValues as $name => $value)
