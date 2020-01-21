@@ -14,7 +14,7 @@ use FrankHouweling\Cartograph\MapperService;
  * Class DirectMapping
  * @package FrankHouweling\Cartograph\Mapping
  */
-final class DirectMapping implements MappingInterface
+class DirectMapping implements MappingInterface
 {
     /**
      * @param object $from
