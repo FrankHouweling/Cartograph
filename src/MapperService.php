@@ -58,10 +58,12 @@ class MapperService
         if(($mappingObject instanceof MappingInterface) === false)
         {
             throw new \LogicException(
-                sprintf('Mapping class %s given as mapping %s -> %s does not implement MappingInterface'),
-                $mapping,
-                get_class($from),
-                get_class($to)
+                sprintf(
+                    'Mapping class %s given as mapping %s -> %s does not implement MappingInterface',
+                    get_class($mappingClass),
+                    get_class($from),
+                    get_class($to)
+                )
             );
         }
         return $mappingObject->map($from, $to, $this);
