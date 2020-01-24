@@ -11,16 +11,15 @@ namespace FrankHouweling\Cartograph\test;
 use FrankHouweling\Cartograph\MapperService;
 use FrankHouweling\Cartograph\Mapping\MappingInterface;
 use FrankHouweling\Cartograph\MappingRepositoryInterface;
-use FrankHouweling\Cartograph\test\TestClasses\Bar;
-use FrankHouweling\Cartograph\test\TestClasses\Baz;
-use FrankHouweling\Cartograph\test\TestClasses\Foo;
+use FrankHouweling\Cartograph\TestClasses\Bar;
+use FrankHouweling\Cartograph\TestClasses\Baz;
+use FrankHouweling\Cartograph\TestClasses\Foo;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 final class MapperServiceTest extends TestCase
 {
-
     /** @var MappingRepositoryInterface|MockObject */
     private $mappingRepository;
 
@@ -59,7 +58,7 @@ final class MapperServiceTest extends TestCase
         $bar = new Bar();
 
         $this->mappingRepository->expects($this->once())
-            ->method(' getMapping')
+            ->method('getMapping')
             ->with(get_class($foo), get_class($bar))
             ->willReturn(MappingInterface::class);
 
@@ -75,7 +74,7 @@ final class MapperServiceTest extends TestCase
 
         $this->mappingObject->expects($this->once())
             ->method('map')
-            ->with($foo, $bar, $this->mappingObject)
+            ->with($foo, $bar, $this->mapperServiceWithContainer)
             ->willReturn($bar);
 
         $result = $this->mapperServiceWithContainer->map($foo, $bar);
@@ -91,7 +90,7 @@ final class MapperServiceTest extends TestCase
         $bar = new Bar();
 
         $this->mappingRepository->expects($this->once())
-            ->method(' getMapping')
+            ->method('getMapping')
             ->with(get_class($foo), get_class($bar))
             ->willReturn(MappingInterface::class);
 
@@ -116,9 +115,10 @@ final class MapperServiceTest extends TestCase
     public function testMapWithStringTarget(): void
     {
         $foo = new Foo();
+        $bar = new Bar();
 
         $this->mappingRepository->expects($this->once())
-            ->method(' getMapping')
+            ->method('getMapping')
             ->with(get_class($foo), Bar::class)
             ->willReturn(MappingInterface::class);
 
@@ -133,7 +133,8 @@ final class MapperServiceTest extends TestCase
             ->willReturn($this->mappingObject);
 
         $this->mappingObject->expects($this->once())
-            ->method('map');
+            ->method('map')
+            ->willReturn($bar);
 
         $result = $this->mapperServiceWithContainer->map($foo, Bar::class);
         $this->assertInstanceOf(Bar::class, $result);
@@ -158,11 +159,11 @@ final class MapperServiceTest extends TestCase
         $bar = new Bar();
 
         $this->mappingRepository->expects($this->once())
-            ->method(' getMapping')
+            ->method('getMapping')
             ->with(get_class($foo), get_class($bar))
             ->willReturn(Baz::class);
 
-        $this->expectException(\LogicException::class);
+        $this->expectException(\TypeError::class);
         $this->mapperServiceWithContainer->map($foo, $bar);
     }
 }

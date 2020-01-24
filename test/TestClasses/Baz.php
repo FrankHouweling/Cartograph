@@ -6,8 +6,12 @@
  * Written by Frank Houweling <houweling.frank@gmail.com>, 21/01/2020
  */
 
-namespace FrankHouweling\Cartograph\test\TestClasses;
+namespace FrankHouweling\Cartograph\TestClasses;
 
+/**
+ * Class Baz
+ * @package FrankHouweling\Cartograph\TestClasses
+ */
 final class Baz
 {
     public $name;

@@ -10,9 +10,9 @@ namespace FrankHouweling\Cartograph\test;
 
 use FrankHouweling\Cartograph\Mapping\MappingInterface;
 use FrankHouweling\Cartograph\MappingRepository;
-use FrankHouweling\Cartograph\test\TestClasses\Bar;
-use FrankHouweling\Cartograph\test\TestClasses\Baz;
-use FrankHouweling\Cartograph\test\TestClasses\Foo;
+use FrankHouweling\Cartograph\TestClasses\Bar;
+use FrankHouweling\Cartograph\TestClasses\Baz;
+use FrankHouweling\Cartograph\TestClasses\Foo;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -37,10 +37,14 @@ final class MappingRepositoryTest extends TestCase
      */
     public function testAddMapping(): void
     {
-        $this->mappingRepository->addMapping(Foo::class, Bar::class, $this->mapping);
+        $this->mappingRepository->addMapping(
+            Foo::class,
+            Bar::class,
+            get_class($this->mapping)
+        );
 
         $mappingClass = $this->mappingRepository->getMapping(Foo::class, Bar::class);
-        $this->assertEquals($this->mapping, $mappingClass);
+        $this->assertEquals(get_class($this->mapping), $mappingClass);
     }
 
     /**
@@ -48,8 +52,12 @@ final class MappingRepositoryTest extends TestCase
      */
     public function testAddMappingForNonexistantFromClass(): void
     {
-        $this->mappingRepository->addMapping('nonexistantClass', Bar::class, $this->mapping);
         $this->expectException(\InvalidArgumentException::class);
+        $this->mappingRepository->addMapping(
+            'nonexistantClass',
+            Bar::class,
+            get_class($this->mapping)
+        );
     }
 
     /**
@@ -57,8 +65,12 @@ final class MappingRepositoryTest extends TestCase
      */
     public function testAddMappingForNonexistantToClass(): void
     {
-        $this->mappingRepository->addMapping(Foo::class, 'nonexistantClass', $this->mapping);
         $this->expectException(\InvalidArgumentException::class);
+        $this->mappingRepository->addMapping(
+            Foo::class,
+            'nonexistantClass',
+            get_class($this->mapping)
+        );
     }
 
     /**
@@ -66,8 +78,12 @@ final class MappingRepositoryTest extends TestCase
      */
     public function testAddMappingForNonexistantMappingClass(): void
     {
-        $this->mappingRepository->addMapping(Foo::class, Bar::class, 'nonexistantClass');
         $this->expectException(\InvalidArgumentException::class);
+        $this->mappingRepository->addMapping(
+            Foo::class,
+            Bar::class,
+            'nonexistantClass'
+        );
     }
 
     /**
