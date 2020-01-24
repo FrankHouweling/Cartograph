@@ -8,7 +8,11 @@
 
 namespace FrankHouweling\Cartograph\test\TestClasses;
 
-final class Bar
+/**
+ * Class Bar
+ * @package FrankHouweling\Cartograph\test\TestClasses
+ */
+class Bar
 {
     public $name;
 
