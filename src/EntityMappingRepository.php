@@ -9,7 +9,7 @@
 namespace FrankHouweling\Cartograph;
 
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Class EntityMappingRepository
@@ -17,15 +17,14 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 final class EntityMappingRepository extends MappingRepository
 {
-    /** @var EntityManagerInterface */
+    /** @var EntityManager */
     private $entityManager;
 
     /**
      * EntityMappingRepository constructor.
-     *
-     * @param EntityManagerInterface $entityManager
+     * @param EntityManager $entityManager
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }
@@ -35,7 +34,7 @@ final class EntityMappingRepository extends MappingRepository
      * @param string $toClass
      * @param string $mappingClass
      */
-    public function addMapping(string $fromClass, string $toClass, string $mappingClass): void
+    public function addMapping(string $fromClass, string $toClass, string $mappingClass)
     {
         parent::addMapping(
             $this->getRealClass($fromClass),
