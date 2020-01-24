@@ -51,21 +51,11 @@ class MapperService
      */
     public function map(object $from, $to): object
     {
-        if(is_string($to))
-        {
+        if (is_string($to)) {
             $to = $this->getObject($to);
         }
         $mappingClass = $this->mappingRepository->getMapping(get_class($from), get_class($to));
         $mappingObject = $this->getMapping($mappingClass);
-        if(($mappingObject instanceof MappingInterface) === false)
-        {
-            throw new \LogicException(
-                sprintf('Mapping class %s given as mapping %s -> %s does not implement MappingInterface'),
-                $mapping,
-                get_class($from),
-                get_class($to)
-            );
-        }
         return $mappingObject->map($from, $to, $this);
     }
 
@@ -75,9 +65,15 @@ class MapperService
      */
     private function getMapping(string $mappingClass): MappingInterface
     {
-        if($this->container !== null && $this->container->has($mappingClass))
-        {
-            return $this->container->get($mappingClass);
+        $mappingClass = (new $mappingClass());
+        if ($this->container !== null && $this->container->has($mappingClass)) {
+            $mappingClass = $this->container->get($mappingClass);
+        }
+
+        if (($mappingClass instanceof MappingInterface) === false) {
+            throw new \LogicException(
+                sprintf('Mapping class %s does not implement MappingInterface', $mappingClass)
+            );
         }
         return (new $mappingClass());
     }
@@ -89,8 +85,7 @@ class MapperService
      */
     private function getObject(string $className): object
     {
-        if(!class_exists($className))
-        {
+        if (!class_exists($className)) {
             throw new \InvalidArgumentException("Invalid class `{$className}`. Check that the classname is spelled " .
                 ' correctly, and the class is included or the autoloader is configured correctly.');
         }
