@@ -14,15 +14,15 @@ namespace FrankHouweling\Cartograph;
  */
 class MappingRepository implements MappingRepositoryInterface
 {
+    /** @var array */
     private $mappingCollection = [];
 
     /**
      * @param string $fromClass
      * @param string $toClass
-     * @param string $mapperClass
-     * @throws \InvalidArgumentException
+     * @param string $mappingClass
      */
-    public function addMapping(string $fromClass, string $toClass, string $mappingClass)
+    public function addMapping(string $fromClass, string $toClass, string $mappingClass): void
     {
         foreach([$fromClass, $toClass, $mappingClass] as $class)
         {

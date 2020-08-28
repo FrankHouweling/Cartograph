@@ -34,7 +34,7 @@ final class EntityMappingRepository extends MappingRepository
      * @param string $toClass
      * @param string $mappingClass
      */
-    public function addMapping(string $fromClass, string $toClass, string $mappingClass)
+    public function addMapping(string $fromClass, string $toClass, string $mappingClass): void
     {
         parent::addMapping(
             $this->getRealClass($fromClass),
