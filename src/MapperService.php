@@ -18,7 +18,7 @@ use Psr\Container\ContainerInterface;
 class MapperService
 {
     /**
-     * @var MappingRepository
+     * @var MappingRepositoryInterface
      */
     private $mappingRepository;
 
@@ -29,11 +29,11 @@ class MapperService
 
     /**
      * MapperService constructor.
-     * @param MappingRepository $mappingRepository
+     * @param MappingRepositoryInterface $mappingRepository
      * @param null|ContainerInterface $container
      */
     public function __construct(
-        MappingRepository $mappingRepository,
+        MappingRepositoryInterface $mappingRepository,
         ?ContainerInterface $container = null
     )
     {

@@ -52,6 +52,7 @@ final class EntityMappingRepository extends MappingRepository
     {
         $from = $this->getRealClass($fromClass);
         $to = $this->getRealClass($toClass);
+
         return parent::getMapping(
             $from,
             $to
