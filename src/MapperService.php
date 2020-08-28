@@ -42,30 +42,20 @@ class MapperService
     }
 
     /**
+     * Retrieves the mapping set for a transformation of $from to $to. And uses it to map the $to object.
+     *
      * @param object $from
      * @param object|string $to
      * @return object
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException if no valid MappingObject is found.
      */
-    public function map($from, $to)
+    public function map(object $from, $to): object
     {
-        if(is_string($to))
-        {
+        if (is_string($to)) {
             $to = $this->getObject($to);
         }
         $mappingClass = $this->mappingRepository->getMapping(get_class($from), get_class($to));
         $mappingObject = $this->getMapping($mappingClass);
-        if(($mappingObject instanceof MappingInterface) === false)
-        {
-            throw new \LogicException(
-                sprintf(
-                    'Mapping class %s given as mapping %s -> %s does not implement MappingInterface',
-                    get_class($mappingClass),
-                    get_class($from),
-                    get_class($to)
-                )
-            );
-        }
         return $mappingObject->map($from, $to, $this);
     }
 
@@ -75,9 +65,15 @@ class MapperService
      */
     private function getMapping(string $mappingClass): MappingInterface
     {
-        if($this->container !== null && $this->container->has($mappingClass))
-        {
-            return $this->container->get($mappingClass);
+        $mappingClass = (new $mappingClass());
+        if ($this->container !== null && $this->container->has($mappingClass)) {
+            $mappingClass = $this->container->get($mappingClass);
+        }
+
+        if (($mappingClass instanceof MappingInterface) === false) {
+            throw new \LogicException(
+                sprintf('Mapping class %s does not implement MappingInterface', $mappingClass)
+            );
         }
         return (new $mappingClass());
     }
@@ -87,10 +83,9 @@ class MapperService
      * @return object
      * @throws \InvalidArgumentException
      */
-    private function getObject(string $className)
+    private function getObject(string $className): object
     {
-        if(!class_exists($className))
-        {
+        if (!class_exists($className)) {
             throw new \InvalidArgumentException("Invalid class `{$className}`. Check that the classname is spelled " .
                 ' correctly, and the class is included or the autoloader is configured correctly.');
         }

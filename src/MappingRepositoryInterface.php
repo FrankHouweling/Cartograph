@@ -21,7 +21,7 @@ interface MappingRepositoryInterface
      * @param string $mappingClass
      * @return void
      */
-    public function addMapping(string $fromClass, string $toClass, string $mappingClass);
+    public function addMapping(string $fromClass, string $toClass, string $mappingClass): void;
 
     /**
      * Retrieve the registered mapping for two given classes.
